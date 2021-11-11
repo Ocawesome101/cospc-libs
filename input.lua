@@ -2,13 +2,13 @@
 
 local lib = {}
 
-function lib.new()
-  return {lastTimerID = nil, pressed = {}}
+function lib.new(delay)
+  return {lastTimerID = nil, delay = delay or 0, pressed = {}}
 end
 
 function lib.poll(state)
   if not state.lastTimerID then
-    state.lastTimerID = os.startTimer(0)
+    state.lastTimerID = os.startTimer(state.delay)
   end
   local sig = table.pack(os.pullEventRaw())
   if sig[1] == "timer" and sig[2] == state.lastTimerID then
